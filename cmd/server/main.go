@@ -86,6 +86,10 @@ func main() {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  60 * time.Second,
+		// Caps how long a client may take to send its headers. Without it a
+		// client can dribble headers indefinitely and hold the connection open
+		// (Slowloris) — ReadTimeout does not cover the header phase alone.
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	go func() {
